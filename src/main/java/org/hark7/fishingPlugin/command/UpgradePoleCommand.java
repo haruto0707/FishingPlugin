@@ -1,4 +1,4 @@
-package org.hark7.fishingPlugin;
+package org.hark7.fishingPlugin.command;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -9,6 +9,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.hark7.fishingPlugin.FishingPlugin;
 
 public class UpgradePoleCommand implements CommandExecutor {
     private final FishingPlugin plugin;
@@ -19,12 +20,11 @@ public class UpgradePoleCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (!(sender instanceof Player)) {
+        if (!(sender instanceof Player player)) {
             sender.sendMessage("このコマンドはプレイヤーのみ使用できます。");
             return true;
         }
 
-        Player player = (Player) sender;
         ItemStack fishingRod = player.getInventory().getItemInMainHand();
 
         if (fishingRod.getType() != Material.FISHING_ROD) {
@@ -47,7 +47,7 @@ public class UpgradePoleCommand implements CommandExecutor {
     }
 
     private int calculateUpgradeCost(ItemStack fishingRod) {
-        int luckOfTheSeaLevel = fishingRod.getEnchantmentLevel(Enchantment.LUCK);
+        int luckOfTheSeaLevel = fishingRod.getEnchantmentLevel(Enchantment.LUCK_OF_THE_SEA);
         int lureLevel = fishingRod.getEnchantmentLevel(Enchantment.LURE);
         return (luckOfTheSeaLevel + lureLevel + 1) * 5;
     }
@@ -57,8 +57,8 @@ public class UpgradePoleCommand implements CommandExecutor {
         if (meta == null) return;
 
         if (Math.random() < 0.5) {
-            int currentLevel = meta.getEnchantLevel(Enchantment.LUCK);
-            meta.addEnchant(Enchantment.LUCK, currentLevel + 1, true);
+            int currentLevel = meta.getEnchantLevel(Enchantment.LUCK_OF_THE_SEA);
+            meta.addEnchant(Enchantment.LUCK_OF_THE_SEA, currentLevel + 1, true);
         } else {
             int currentLevel = meta.getEnchantLevel(Enchantment.LURE);
             meta.addEnchant(Enchantment.LURE, currentLevel + 1, true);

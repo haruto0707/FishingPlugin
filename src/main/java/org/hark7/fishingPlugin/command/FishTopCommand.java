@@ -1,10 +1,11 @@
-package org.hark7.fishingPlugin;
+package org.hark7.fishingPlugin.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.hark7.fishingPlugin.FishingPlugin;
 
 import java.util.ArrayList;
 import java.util.List;

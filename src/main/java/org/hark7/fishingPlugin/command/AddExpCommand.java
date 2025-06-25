@@ -1,4 +1,4 @@
-package org.hark7.fishingPlugin;
+package org.hark7.fishingPlugin.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.hark7.fishingPlugin.FishingPlugin;
 
 public class AddExpCommand implements CommandExecutor {
     private final FishingPlugin plugin;
