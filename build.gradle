@@ -1,9 +1,17 @@
 plugins {
     id 'java'
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = 'org.hark7'
-version = '1.1-SNAPSHOT'
+version = '1.4-SNAPSHOT'
+
+shadowJar {
+    archiveFileName = "${project.name}-${project.version}.jar"
+    dependencies {
+        exclude(dependency("org.xerial:sqlite-jdbc:3.50.1.0"))
+    }
+}
 
 repositories {
     mavenCentral()
@@ -19,6 +27,10 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.21.4-R0.1-SNAPSHOT")
+    // https://mvnrepository.com/artifact/org.xerial/sqlite-jdbc
+    implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.50.1.0'
+    implementation "net.kyori:adventure-text-serializer-plain:4.22.0"
+    implementation "net.kyori:adventure-platform-bukkit:4.4.0"
 }
 
 def targetJavaVersion = 17

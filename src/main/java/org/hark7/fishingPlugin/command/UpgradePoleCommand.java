@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.hark7.fishingPlugin.FishingPlugin;
+import org.jetbrains.annotations.NotNull;
 
 public class UpgradePoleCommand implements CommandExecutor {
     private final FishingPlugin plugin;
@@ -19,7 +20,7 @@ public class UpgradePoleCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
             sender.sendMessage("このコマンドはプレイヤーのみ使用できます。");
             return true;
@@ -31,8 +32,8 @@ public class UpgradePoleCommand implements CommandExecutor {
             player.sendMessage(ChatColor.RED + "釣り竿を手に持って使用してください。");
             return true;
         }
-
-        int playerLevel = plugin.getFishingLevels().getOrDefault(player.getUniqueId(), 1);
+        var playerUUID = player.getUniqueId();
+        int playerLevel = plugin.getPlayerData(playerUUID).level();
         int upgradeCost = calculateUpgradeCost(fishingRod);
 
         if (playerLevel < upgradeCost) {
