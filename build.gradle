@@ -4,24 +4,13 @@ plugins {
 }
 
 group = 'org.hark7'
-version = '1.4-SNAPSHOT'
+version = '1.5-SNAPSHOT'
 
 shadowJar {
     archiveFileName = "${project.name}-${project.version}.jar"
     dependencies {
-        exclude(dependency("org.xerial:sqlite-jdbc:3.50.1.0"))
-    }
-}
-
-repositories {
-    mavenCentral()
-    maven {
-        name = "spigotmc-repo"
-        url = "https://hub.spigotmc.org/nexus/content/repositories/snapshots/"
-    }
-    maven {
-        name = "sonatype"
-        url = "https://oss.sonatype.org/content/groups/public/"
+        // sqlite-jdbc is already included in the implementation dependencies
+        exclude(dependency("org.xerial:sqlite-jdbc"))
     }
 }
 

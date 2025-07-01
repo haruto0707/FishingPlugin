@@ -26,7 +26,7 @@ public class FishListener implements Listener {
     private static final float BASE_RARE_CHANCE = 0.05F;       // 基本のレア魚の出現確率
     private static final float BASE_UNCOMMON_CHANCE = 0.2F;    // 基本のアンコモン魚の出現確率
     private static final float BASE_COMMON_CHANCE = 0.8F;      // 基本のコモン魚の出現確率
-    // 釣り竿に付与される可能性のあるエンチャントのリスト
+    // エンチャント本に含まれる可能性のあるエンチャントのリスト
     private final Enchantment[] enchantments = {
             Enchantment.BINDING_CURSE, Enchantment.VANISHING_CURSE, Enchantment.FROST_WALKER, Enchantment.MENDING,
             Enchantment.SOUL_SPEED, Enchantment.SWIFT_SNEAK, Enchantment.WIND_BURST, Enchantment.AQUA_AFFINITY,
@@ -70,7 +70,7 @@ public class FishListener implements Listener {
                 var location = event.getHook().getLocation();
                 var world = event.getHook().getWorld();
                 world.spawnEntity(location, entityFish.entityType());
-                event.getCaught().remove();
+                if (event.getCaught() != null) event.getCaught().remove();
             } else return;
 
             int baseExp = caughtFish.rarity().exp();
@@ -155,6 +155,14 @@ public class FishListener implements Listener {
         return selectedFish;
     }
 
+    /**
+     * ランダムな値に基づいてレアリティを決定します。
+     * レアリティの確率はプレイヤーのレベルと釣り竿のエンチャントによって変動します。
+     *
+     * @param random ランダムな値
+     * @param rarityBonus レアリティボーナス
+     * @return 選択されたレアリティ
+     */
     private static Rarity getRarity(double random, double rarityBonus) {
         Rarity selectedRarity;
         if (random < (BASE_LEGENDARY_CHANCE + rarityBonus)) selectedRarity = Rarity.LEGENDARY;
@@ -273,8 +281,8 @@ public class FishListener implements Listener {
         var rand = new Random();
         var enchantment = enchantments[rand.nextInt(enchantments.length)];
         var level = 1;
-        if (2 < enchantment.getMaxLevel()) level += rand.nextInt(Math.min(enchantment.getMaxLevel(), playerLevel / 5));
-        else level += rand.nextInt(Math.min(enchantment.getMaxLevel(), playerLevel / 10));
+        if (2 < enchantment.getMaxLevel()) level += rand.nextInt(Math.min(enchantment.getMaxLevel(), playerLevel / 5) + 1);
+        else level += rand.nextInt(Math.min(enchantment.getMaxLevel(), playerLevel / 10) + 1);
         return new ItemFish(Material.ENCHANTED_BOOK, Rarity.LEGENDARY, 0,
                 new EnchantmentValue(enchantment, level));
     }
